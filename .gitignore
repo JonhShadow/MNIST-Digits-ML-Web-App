@@ -6,6 +6,7 @@ __pycache__/
 #personal folders
 web/
 .idea/
+Digits/
 # C extensions
 *.so
 
