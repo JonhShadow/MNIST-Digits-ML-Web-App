@@ -18,12 +18,6 @@ app.config["CACHE_TYPE"] = "null"
 def home(name):
     return f"<h1>Hello {name}</h1>"
 
-
-@app.route("/admin")
-def admin():
-    return redirect(url_for("home", name="Joao"))
-
-
 # start here
 @app.route('/', methods=["POST", "GET"])
 def index():
