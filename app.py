@@ -6,6 +6,7 @@ from flask import Flask, flash, redirect, url_for, render_template, request
 import keras
 import numpy as np
 from PIL import Image
+import pandas as pd
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "supertopsecretprivatekey"
@@ -49,6 +50,10 @@ def index():
 
     return render_template("index.html", pred=num, disp=img)
 
+@app.route('/housing', methods=["POST", "GET"])
+def housing_prices():
+    return render_template("housing.html")
+
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
