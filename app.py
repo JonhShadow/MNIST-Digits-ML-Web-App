@@ -1,6 +1,7 @@
 # web app
 import os
 from flask import Flask, flash, redirect, url_for, render_template, request
+import folium
 
 # ml
 import keras
@@ -12,6 +13,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "supertopsecretprivatekey"
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config["CACHE_TYPE"] = "null"
+app.config.update( DEBUG=True, TEMPLATES_AUTO_RELOAD=True)
 
 
 # testing stuf
@@ -52,6 +54,13 @@ def index():
 
 @app.route('/housing', methods=["POST", "GET"])
 def housing_prices():
+    #data = pd.read_csv("kc_house_data.csv")
+    map = folium.Map(location=[47.47, -121.84],
+                            zoom_start=10,
+                            tiles="cartodbpositron",
+                            width='75%', height = '75%')
+    map.save("templates/map.html")
+
     return render_template("housing.html")
 
 

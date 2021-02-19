@@ -6,22 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block import %}{% endblock %}
     <title>{% block title %}{% endblock %}</title>
-    <style>
-        .try-me:hover {
-            color: #FF1B6B;
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="try-me navbar-brand fw-bold" href="/">MNIST Digist</a>
-      <a class="try-me navbar-brand fw-bold" href="/housing">Housing Prices</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
+        <a class="try-me navbar-brand fw-bold" href="/">MNIST Digist</a>
+        <a class="try-me navbar-brand fw-bold" href="/housing">Housing Prices</a>
         <a class="nav-link active" aria-current="page" href="/about">About me</a>
       </div>
     </div>
