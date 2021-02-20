@@ -2,12 +2,15 @@
 import os
 from flask import Flask, flash, redirect, url_for, render_template, request
 import folium
+import json
+import requests
 
 # ml
 import keras
 import numpy as np
 from PIL import Image
 import pandas as pd
+from random import randint
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "supertopsecretprivatekey"
@@ -54,14 +57,43 @@ def index():
 
 @app.route('/housing', methods=["POST", "GET"])
 def housing_prices():
-    #data = pd.read_csv("kc_house_data.csv")
+    data = pd.read_csv("kc_house_data.csv")
+    url = "https://raw.githubusercontent.com/python-visualization/folium/master/tests/us-counties.json"
+    king = requests.get(url)
+    king = king.json()
+
+    for x in king['features']:
+        if x['id'] == '53033':
+            king = x
+            break
+
     map = folium.Map(location=[47.47, -121.84],
-                            zoom_start=10,
-                            tiles="cartodbpositron",
-                            width='75%', height = '75%')
+                            tiles="OpenStreetMap",
+                            zoom_start=10)
+    folium.GeoJson(king, name="geojson").add_to(map)
+    tooltip = "Click for house stats"
+    for n in range(10):
+        i = randint(0, 2000)
+        lat = data.lat[i]
+        long = data.long[i]
+
+        bed = data.bedrooms[i]
+        bath = data.bathrooms[i]
+        sqft = data.sqft_lot[i]
+        floors = data.floors[i]
+        str = f"<i style='font-family: Helvetica, sans-serif;'>Sqft: {sqft}<br>N floors: {floors}<br>N beds: {bed}<br>N bath: {bath}</i>"
+
+        iframe = folium.IFrame(str, width=120, height=100)
+        pop = folium.Popup(iframe, max_width=120)
+        folium.Marker([lat, long], popup=pop, tooltip=tooltip).add_to(map)
+
     map.save("templates/map.html")
 
     return render_template("housing.html")
+
+@app.route('/map')
+def map():
+    return render_template('map.html')
 
 
 if __name__ == '__main__':

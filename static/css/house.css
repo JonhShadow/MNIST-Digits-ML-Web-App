@@ -19,6 +19,8 @@ body {
   width: 100%;
 }
 
-.center {
-  margin: auto;
+.map {
+  margin-top: 3%;
+  margin-left: 3%;
 }
+
