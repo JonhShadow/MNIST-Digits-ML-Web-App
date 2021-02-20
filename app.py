@@ -69,7 +69,7 @@ def housing_prices():
 
     map = folium.Map(location=[47.47, -121.84],
                             tiles="OpenStreetMap",
-                            zoom_start=9)
+                            zoom_start=9.5)
 
     folium.GeoJson(king, name="geojson").add_to(map)
     tooltip = "Click for house stats"
@@ -98,4 +98,4 @@ def map():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
