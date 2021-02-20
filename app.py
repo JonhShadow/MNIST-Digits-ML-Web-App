@@ -69,7 +69,8 @@ def housing_prices():
 
     map = folium.Map(location=[47.47, -121.84],
                             tiles="OpenStreetMap",
-                            zoom_start=10)
+                            zoom_start=9)
+
     folium.GeoJson(king, name="geojson").add_to(map)
     tooltip = "Click for house stats"
     for n in range(10):
@@ -83,8 +84,8 @@ def housing_prices():
         floors = data.floors[i]
         str = f"<i style='font-family: Helvetica, sans-serif;'>Sqft: {sqft}<br>N floors: {floors}<br>N beds: {bed}<br>N bath: {bath}</i>"
 
-        iframe = folium.IFrame(str, width=120, height=100)
-        pop = folium.Popup(iframe, max_width=120)
+        iframe = folium.IFrame(str, width=125, height=100)
+        pop = folium.Popup(iframe, max_width=125)
         folium.Marker([lat, long], popup=pop, tooltip=tooltip).add_to(map)
 
     map.save("templates/map.html")
