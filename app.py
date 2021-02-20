@@ -69,9 +69,13 @@ def housing_prices():
 
     map = folium.Map(location=[47.47, -121.84],
                             tiles="OpenStreetMap",
-                            zoom_start=9.5)
+                            zoom_start=9)
+    style = {
+        "fillOpacity": 0.1,
+    }
+    folium.GeoJson(king, name="King County", style_function= lambda x : style).add_to(map)
+    folium.LayerControl().add_to(map)
 
-    folium.GeoJson(king, name="geojson").add_to(map)
     tooltip = "Click for house stats"
     for n in range(10):
         i = randint(0, 2000)
@@ -86,7 +90,7 @@ def housing_prices():
 
         iframe = folium.IFrame(str, width=125, height=100)
         pop = folium.Popup(iframe, max_width=125)
-        folium.Marker([lat, long], popup=pop, tooltip=tooltip).add_to(map)
+        folium.Marker([lat, long], popup=pop, tooltip=tooltip, icon=folium.Icon(color='green')).add_to(map)
 
     map.save("templates/map.html")
 
@@ -98,4 +102,4 @@ def map():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0")
+    app.run(debug=True)
