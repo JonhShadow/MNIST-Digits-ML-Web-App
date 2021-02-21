@@ -11,18 +11,14 @@ import numpy as np
 from PIL import Image
 import pandas as pd
 from random import randint
+import pickle
+from sklearn.ensemble import GradientBoostingRegressor
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "supertopsecretprivatekey"
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.config["CACHE_TYPE"] = "null"
 app.config.update( DEBUG=True, TEMPLATES_AUTO_RELOAD=True)
-
-
-# testing stuf
-@app.route('/<name>')
-def home(name):
-    return f"<h1>Hello {name}</h1>"
 
 # start here
 @app.route('/', methods=["POST", "GET"])
@@ -58,26 +54,29 @@ def index():
 @app.route('/housing', methods=["POST", "GET"])
 def housing_prices():
     data = pd.read_csv("kc_house_data.csv")
-    url = "https://raw.githubusercontent.com/python-visualization/folium/master/tests/us-counties.json"
+    conv_dates = [1 if values == 2014 else 0 for values in data.date]
+    data['date'] = conv_dates
+
+    url = "https://opendata.arcgis.com/datasets/12712f465fc44fb58328c6e0255ca27e_11.geojson?where=OBJECTID%20%3E%3D%207947%20AND%20OBJECTID%20%3C%3D%207947"
     king = requests.get(url)
     king = king.json()
 
-    for x in king['features']:
-        if x['id'] == '53033':
-            king = x
-            break
-
     map = folium.Map(location=[47.47, -121.84],
                             tiles="OpenStreetMap",
-                            zoom_start=9)
+                            zoom_start=9.4)
     style = {
         "fillOpacity": 0.1,
     }
-    folium.GeoJson(king, name="King County", style_function= lambda x : style).add_to(map)
+    url = "https://skgrange.github.io/www/data/london_boroughs.json"
+    london = requests.get(url)
+    london = london.json()
+    folium.GeoJson(king, name="King County", style_function= lambda x : style, tooltip=folium.features.GeoJsonTooltip(fields=['JURISDICT_NM',],sticky=False, labels=False, localize=True)).add_to(map)
+
+    folium.GeoJson(london, name="london", style_function= lambda x : style, tooltip=folium.features.GeoJsonTooltip(fields=['name',],sticky=False, labels=False, localize=True)).add_to(map)
     folium.LayerControl().add_to(map)
 
     tooltip = "Click for house stats"
-    for n in range(10):
+    for n in range(15):
         i = randint(0, 2000)
         lat = data.lat[i]
         long = data.long[i]
@@ -86,11 +85,20 @@ def housing_prices():
         bath = data.bathrooms[i]
         sqft = data.sqft_lot[i]
         floors = data.floors[i]
-        str = f"<i style='font-family: Helvetica, sans-serif;'>Sqft: {sqft}<br>N floors: {floors}<br>N beds: {bed}<br>N bath: {bath}</i>"
+        real_price = data.price[i].round(1)
 
-        iframe = folium.IFrame(str, width=125, height=100)
-        pop = folium.Popup(iframe, max_width=125)
-        folium.Marker([lat, long], popup=pop, tooltip=tooltip, icon=folium.Icon(color='green')).add_to(map)
+        x= data.iloc[[i]]
+        x = x.drop(['id', 'price'], axis=1)
+        pkl_filename = "house_model.pkl"
+        with open(pkl_filename, 'rb') as file:
+            model = pickle.load(file)
+        pred_price = model.predict(x).round(1)
+
+        str = f"<i style='font-family: Helvetica, sans-serif; line-height: 1.6;'>Sqft: {sqft}sq<br>N floors: {floors}<br>N beds: {bed}<br>N bath: {bath}<br>Price: {real_price}$<br>Pred. price: {pred_price[0]}$ </i>"
+
+        iframe = folium.IFrame(str, width=200, height=120)
+        pop = folium.Popup(iframe, max_width=200)
+        folium.Marker([lat, long], popup=pop, tooltip=tooltip, icon=folium.Icon(color='cadetblue', icon='home', prefix='fa')).add_to(map)
 
     map.save("templates/map.html")
 
