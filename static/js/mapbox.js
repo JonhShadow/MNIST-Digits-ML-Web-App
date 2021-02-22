@@ -14,6 +14,7 @@ function autocompleteSuggestionMapBoxAPI(inputParams, callback) {
                 -116.916070668425,
                 49.0121490866648,
             ],
+            types: ['address'],
             autocomplete: true,
             limit: 5,
         })
@@ -64,6 +65,23 @@ function autocompleteInputBox(inp) {
 
                         document.getElementById('lat').value = lat
                         document.getElementById('long').value = long
+                        for (const x in key.context) {
+                            if (key.context[x].id.includes("postcode")) {
+                                document.getElementById('inputzip').value = key.context[x].text;
+                                break;
+                            }
+                        }
+                        var frame = document.getElementById("frame-map");
+                        var map_id = frame.contentWindow.document.getElementsByClassName("folium-map")[0].id;
+                        console.log(map_id);
+                        var map = window[map_id];
+                        var frame_map = frame.contentWindow.document.getElementById(map_id).contentWindow.m;
+                        L.marker([lat, long], {opacity: .4}).addTo(frame_map);
+
+                        /*var a = document.createElement('a');
+                        a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(key)));
+                        a.setAttribute('download', 'filename.json');
+                        a.click()*/
 
                         inp.value = $(this).find("input").val();
                         $(inp).attr("data-lat", lat);
