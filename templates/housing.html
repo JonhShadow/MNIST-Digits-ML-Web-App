@@ -25,7 +25,7 @@
         </div>
         <div class="principal-direita">
             <h1>Predict the price of your house!</h1>
-            <form class="container pt-4" autocomplete="off">
+            <form class="container pt-4" action="#" method="post" enctype = 'multipart/form-data' autocomplete="off">
                 <div class="form-group">
                     <div class="autocomplete">
                         <input
@@ -41,90 +41,99 @@
                 <div class="form-group get">
                     <div class="row">
                         <div class="col-sm">
-                            <input type='text' id='lat' class="form-control mt-1" placeholder="latitude" readonly>
+                            <input type='text' name='lat' id='lat' class="form-control mt-1" placeholder="latitude" readonly>
                         </div>
                         <div class="col-sm">
-                            <input type='text' id='long' class="form-control mt-1" placeholder="latitude" readonly>
+                            <input type='text' name='long' id='long' class="form-control mt-1" placeholder="latitude" readonly>
                         </div>
                     </div>
                 </div>
                 <div class="row pt-2">
                     <div class="form-group col">
                         <label for="inputbed">Bedrooms</label>
-                        <input type="number" class="form-control" id="inputbed">
+                        <input type="number" class="form-control" name="inputbed" id="inputbed">
                     </div>
                     <div class="form-group col">
                         <label for="inputbath">Bathrooms</label>
-                        <input type="number" class="form-control" id="inputbath">
+                        <input type="number" class="form-control" name="inputbath" id="inputbath">
                     </div>
                     <div class="form-group col">
                         <label for="inputsq">Sqft Living</label>
-                        <input type="number" class="form-control" id="inputsq">
+                        <input type="number" class="form-control" name="inputsq" id="inputsq">
                     </div>
                 </div>
                 <div class="row pt-2">
                     <div class="form-group col">
                         <label for="inputdqlot">Sqft lot</label>
-                        <input type="number" class="form-control" id="inputsqlot">
+                        <input type="number" class="form-control" name="inputsqlot" id="inputsqlot">
                     </div>
                     <div class="form-group col">
                         <label for="inputfloor">Floors</label>
-                        <input type="number" class="form-control" id="inputfloor">
+                        <input type="number" class="form-control" name="inputfloor" id="inputfloor">
                     </div>
                     <div class="form-group col">
                         <label for="inputwt">Waterfront</label>
-                        <input type="number" class="form-control" id="inputwt">
+                        <input type="number" class="form-control" name="inputwt" id="inputwt">
                     </div>
                 </div>
                 <div class="row pt-2">
                     <div class="form-group col">
                         <label for="inputview">View</label>
-                        <input type="number" class="form-control" id="inputview">
+                        <input type="number" class="form-control" name="inputview" id="inputview">
                     </div>
                     <div class="form-group col">
                         <label for="inputcond">Condition</label>
-                        <input type="number" class="form-control" id="inputcond">
+                        <input type="number" class="form-control" name="inputcond" id="inputcond">
                     </div>
                     <div class="form-group col">
                         <label for="inputgrade">Grade</label>
-                        <input type="number" class="form-control" id="inputgrade">
+                        <input type="number" class="form-control" name="inputgrade" id="inputgrade">
                     </div>
                 </div>
                 <div class="row pt-2">
                     <div class="form-group col">
                         <label for="inputabove">Sqft Above</label>
-                        <input type="number" class="form-control" id="inputabove">
+                        <input type="number" class="form-control" name="inputabove" id="inputabove">
                     </div>
                     <div class="form-group col">
                         <label for="inputbase">Sqft Basement (0 for none)</label>
-                        <input type="number" class="form-control" id="inputbase">
+                        <input type="number" class="form-control" name="inputbase" id="inputbase">
                     </div>
                     <div class="form-group col">
                         <label for="inputyear">Construction year</label>
-                        <input type="number" class="form-control" id="inputyear">
+                        <input type="number" class="form-control" name="inputyear" id="inputyear">
                     </div>
                 </div>
                 <div class="row pt-2">
                     <div class="form-group col">
                         <label for="inputreno">Renovation year (0 for none)</label>
-                        <input type="number" class="form-control" id="inputreno">
+                        <input type="number" class="form-control" name="inputreno" id="inputreno">
                     </div>
                     <div class="form-group col">
                         <label for="inputzip">ZipCode</label>
-                        <input type="text" class="form-control" id="inputzip" readonly>
+                        <input type="text" class="form-control" name="inputzip" id="inputzip" readonly>
                     </div>
                     <div class="form-group col">
                         <label for="inputl15">Sqft Living 15</label>
-                        <input type="number" class="form-control" id="inputl15">
+                        <input type="number" class="form-control" name="inputl15" id="inputl15">
                     </div>
                 </div>
                 <div class="row pt-2">
                     <div class="form-group col-md-4">
                         <label for="inputlot15">Sqft Lot 15</label>
-                        <input type="number" class="form-control" id="inputlo15">
+                        <input type="number" class="form-control" name="inputlo15" id="inputlo15">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                <div class="row pt-2">
+                     <div class="form-group col-md-4">
+                         <button type="submit" class="sub btn btn-primary btn-block">Submit</button>
+                     </div>
+                    {% if pred_form != -1 %}
+                    <div class="form-group col">
+                         <h4>Your house as a predict price of {{ pred_form }}$</h4>
+                     </div>
+                    {% endif %}
+                </div>
             </form>
         </div>
     </div>

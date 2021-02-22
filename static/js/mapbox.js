@@ -71,17 +71,21 @@ function autocompleteInputBox(inp) {
                                 break;
                             }
                         }
+                        /*
                         var frame = document.getElementById("frame-map");
                         var map_id = frame.contentWindow.document.getElementsByClassName("folium-map")[0].id;
                         console.log(map_id);
                         var map = window[map_id];
                         var frame_map = frame.contentWindow.document.getElementById(map_id).contentWindow.m;
                         L.marker([lat, long], {opacity: .4}).addTo(frame_map);
+                        */
 
-                        /*var a = document.createElement('a');
+                        /*
+                        var a = document.createElement('a');
                         a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(key)));
                         a.setAttribute('download', 'filename.json');
-                        a.click()*/
+                        a.click()
+                        */
 
                         inp.value = $(this).find("input").val();
                         $(inp).attr("data-lat", lat);
