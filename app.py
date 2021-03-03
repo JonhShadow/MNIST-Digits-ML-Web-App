@@ -118,9 +118,15 @@ def housing_prices():
     folium.GeoJson(london, name="london", style_function= lambda x : style, tooltip=folium.features.GeoJsonTooltip(fields=['name',],sticky=False, labels=False, localize=True)).add_to(map)
     folium.LayerControl().add_to(map)
 
+    poi = pd.read_csv("POI_KingCounty.csv")
+    for index, row in poi.iterrows():
+        cm = folium.CircleMarker(location=[row.Lat, row.Long], radius=5,tooltip=row.category, fill=True, fill_color='lightblue', color='grey', fill_opacity=0.7)
+        map.add_child(cm)
+        if index == 50:
+            break
     tooltip = "Click for house stats"
     for n in range(15):
-        i = randint(0, 2000)
+        i = randint(0, 20000)
         lat = data.lat[i]
         long = data.long[i]
 
